@@ -1,0 +1,27 @@
+OpenNMS plugin for Network Weathermap.
+Created for http://www.inveneo.org and their network in Haiti
+
+http://www.opennms.org/
+http://www.network-weathermap.com/
+
+This plugin is useful if you want to get up/down status for a node's primary interface from opennms.  The way it works is that the plugin takes the id of the node from the opennms and makes an http request to opennms via the restful interface.  The plugin returns 1 for up or 0 for down on both the IN and OUT values.  Similar to the cacti plugin.  I also set the value into a node_status variable.  Here are some excerpts from an example config file that is using this plugin.  Good luck!
+
+# Up is Green, Down is Red
+SCALE updown 0 0 255 0 0
+SCALE updown 1 1 0 255 0
+
+# Config stuff.  The plugin needs this to make http requests to your open nms server
+SET opennms_https false
+SET opennms_host myhost.name.org
+SET opennms_port 8980
+SET opennms_base_url /opennms
+SET opennms_user username
+SET opennms_pass password
+
+# sample node named obleo with open nms id 13.  The stuff in brackets gets the value up=1 down=0.
+# it would be useful if you used icons and wanted different icons for up or down.
+NODE OBLEO
+	TARGET onms:13
+	USESCALE updown
+	LABEL OBLEO {node:this:node_status}
+	POSITION 254 478
