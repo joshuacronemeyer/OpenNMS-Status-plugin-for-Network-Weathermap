@@ -14,14 +14,7 @@ class WeatherMapDataSource_onms extends WeatherMapDataSource {
 
 	function Recognise($targetstring)
 	{
-		if(preg_match("/^onms:(\d+)$/",$targetstring,$matches))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		return preg_match("/^onms:(\d+)$/",$targetstring,$matches);
 	}
 	
 	function IsPrimaryInterface($ip_interface)
@@ -33,12 +26,12 @@ class WeatherMapDataSource_onms extends WeatherMapDataSource {
 	function OpenNMSInterfacesUrl($node_id, $map)
 	{
 	
-		$onmshttps= $map->get_hint('opennms_https');
-    $onmshost= $map->get_hint('opennms_host');
-    $onmsport= intval($map->get_hint('opennms_port'));
-    $onmsbaseurl= $map->get_hint('opennms_base_url');
-    $onmsuser= $map->get_hint('opennms_user');
-    $onmspass= $map->get_hint('opennms_pass');
+		$onmshttps = $map->get_hint('opennms_https');
+    $onmshost = $map->get_hint('opennms_host');
+    $onmsport = intval($map->get_hint('opennms_port'));
+    $onmsbaseurl = $map->get_hint('opennms_base_url');
+    $onmsuser = $map->get_hint('opennms_user');
+    $onmspass = $map->get_hint('opennms_pass');
 
     if($onmshttps == "true") { $onmsproto = "https"; } else { $onmsproto = "http"; }
     if($onmsport == 0) $onmsport = 8980;
@@ -50,7 +43,7 @@ class WeatherMapDataSource_onms extends WeatherMapDataSource {
 	function GetInterfaceList($node_id, $map)
 	{
 		$fetchurl = $this->OpenNMSInterfacesUrl($node_id, $map);
-		$fd=fopen($fetchurl, "rb");
+		$fd = fopen($fetchurl, "rb");
 
 		if (! $fd) {
 			debug("OpenNMS RrdSummary ReadData: Couldn't open ($fetchurl)");
@@ -85,8 +78,7 @@ class WeatherMapDataSource_onms extends WeatherMapDataSource {
 		$data[OUT] = null;
 		$data_time = 1;
 
-		if(preg_match("/^onms:(\d+)$/",$targetstring,$matches))
-		{
+		if(preg_match("/^onms:(\d+)$/",$targetstring,$matches)) {
 			$node_id = $matches[1];
 		}
 		
